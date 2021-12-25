@@ -19,7 +19,7 @@ namespace MyShop.WebUI.Controllers
         public ProductManagerController(IRepository<Product> productContext,IRepository<ProductCategory> productCategoryContext)
         {
             context = productContext;
-            categoryRepository = productCategoryContext;
+            categoryRepository = productCategoryContext;//8486824972//0033
         }
         // GET: ProductManager
         public ActionResult Index()
