@@ -29,6 +29,7 @@ namespace MyShop.WebUI.Controllers
             return View(products);
         }
 
+      
         public ActionResult Create()
         {
             ProductManagerViewModel viewModel = new ProductManagerViewModel();
