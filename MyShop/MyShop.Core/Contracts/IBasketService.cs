@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 
-namespace MyShop.DataAccess.Contracts
+namespace MyShop.Core.Contracts
 {
     public interface IBasketService
     {
@@ -10,5 +10,6 @@ namespace MyShop.DataAccess.Contracts
         List<BasketItemViewModel> GetBasketItems(HttpContextBase httpContext);
         BasketSummaryViewModel GetBasketSummary(HttpContextBase httpContext);
         void RemoveFromBasket(HttpContextBase httpContext, string productId);
+        void ClearBasket(HttpContextBase httpContext);
     }
 }
