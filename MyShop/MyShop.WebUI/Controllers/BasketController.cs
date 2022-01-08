@@ -11,7 +11,7 @@ namespace MyShop.WebUI.Controllers
 {
     public class BasketController : Controller
     {
-
+        IRepository<Customer> CustomerContext;
         IBasketService basketService;
         IOrderService orderService;
         // GET: Basket
@@ -20,10 +20,11 @@ namespace MyShop.WebUI.Controllers
         {
 
         }
-        public BasketController(IBasketService basketService,IOrderService orderService)
+        public BasketController(IBasketService basketService,IOrderService orderService,IRepository<Customer> CustomerContext)
         {
             this.basketService = basketService;
             this.orderService = orderService;
+            this.CustomerContext = CustomerContext;
         }
 
         public ActionResult Index()
@@ -51,17 +52,37 @@ namespace MyShop.WebUI.Controllers
         }
 
 
+        [Authorize]
         public ActionResult CheckOut()
         {
-            return View();
+            Customer customer = CustomerContext.Collection().FirstOrDefault(c => c.Email == User.Identity.Name);
+            if (customer != null)
+            {
+                Order order = new Order() { 
+                FirstName=customer.FirstName,
+                Surname=customer.LastName,
+                Email=customer.Email,
+                Street=customer.Street,
+                City=customer.City,
+                State=customer.State,
+                ZipCode=customer.Zipcode
+                };
+                return View(order);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+            
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult CheckOut(Order order)
         {
             var basketItems = basketService.GetBasketItems(this.HttpContext);
             order.OrderStatus = "Order Created";
-
+            order.Email = User.Identity.Name;
             //process payment
             order.OrderStatus = "Payment Processed";
             orderService.CreateOrder(order, basketItems);

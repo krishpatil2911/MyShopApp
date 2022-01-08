@@ -161,7 +161,8 @@ namespace MyShop.WebUI.Controllers
                         Street=model.Street,
                         State=model.State,
                         Zipcode=model.Zipcode,
-                        UserId=user.Id
+                        UserId=user.Id,
+                        Email=model.Email,
                         };
                     CustomerContext.Insert(customer);
                     CustomerContext.Commit();
